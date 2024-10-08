@@ -1,8 +1,8 @@
 package eu.pb4.styledplayerlist;
 
-import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.text.*;
 import net.minecraft.util.Formatting;
+import net.neoforged.fml.ModContainer;
 
 import javax.imageio.ImageIO;
 import java.nio.file.Files;
@@ -18,12 +18,12 @@ public class GenericModInfo {
     private static Text[] consoleAbout = new Text[0];
 
     public static void build(ModContainer container) {
-        var github = container.getMetadata().getContact().get("sources").orElse("UNKNOWN");
+        var github = "https://github.com/LostPattern/StyledPlayerList";
         {
             final String chr = "█";
             var icon = new ArrayList<MutableText>();
             try {
-                var source = ImageIO.read(Files.newInputStream(container.getPath("assets/styled_player_list/icon_ingame.png")));
+                var source = ImageIO.read(GenericModInfo.class.getResourceAsStream("/assets/styled_player_list/icon_ingame.png"));
 
                 for (int y = 0; y < source.getHeight(); y++) {
                     var base = Text.literal("");
@@ -53,8 +53,7 @@ public class GenericModInfo {
 
         var contributors = new ArrayList<String>();
 
-        container.getMetadata().getAuthors().forEach(x -> contributors.add(x.getName()));
-        container.getMetadata().getContributors().forEach(x -> contributors.add(x.getName()));
+        contributors.add((String) container.getModInfo().getConfig().getConfigElement("authors").get());
 
         var about = new ArrayList<Text>();
         var extraData = Text.empty();
@@ -78,10 +77,10 @@ public class GenericModInfo {
                     .append("]")).setStyle(Style.EMPTY.withColor(Formatting.DARK_GRAY));
 
             about.add(Text.empty()
-                    .append(Text.literal( container.getMetadata().getName() + " ").setStyle(Style.EMPTY.withColor(COLOR).withBold(true)))
-                    .append(Text.literal(container.getMetadata().getVersion().getFriendlyString()).setStyle(Style.EMPTY.withColor(Formatting.WHITE))));
+                    .append(Text.literal( container.getModInfo().getDisplayName() + " ").setStyle(Style.EMPTY.withColor(COLOR).withBold(true)))
+                    .append(Text.literal(container.getModInfo().getVersion().toString()).setStyle(Style.EMPTY.withColor(Formatting.WHITE))));
 
-            about.add(Text.literal("» " + container.getMetadata().getDescription()).setStyle(Style.EMPTY.withColor(Formatting.GRAY)));
+            about.add(Text.literal("» " + container.getModInfo().getDescription()).setStyle(Style.EMPTY.withColor(Formatting.GRAY)));
 
             about.add(extraData);
         } catch (Throwable e) {
@@ -96,14 +95,14 @@ public class GenericModInfo {
             var output = new ArrayList<Text>();
             about.clear();
             try {
-                about.add(Text.literal(container.getMetadata().getName()).setStyle(Style.EMPTY.withColor(COLOR).withBold(true).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, github))));
+                about.add(Text.literal(container.getModInfo().getDisplayName()).setStyle(Style.EMPTY.withColor(COLOR).withBold(true).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, github))));
                 about.add(Text.literal("Version: ").setStyle(Style.EMPTY.withColor(0xf7e1a7))
-                        .append(Text.literal(container.getMetadata().getVersion().getFriendlyString()).setStyle(Style.EMPTY.withColor(Formatting.WHITE))));
+                        .append(Text.literal(container.getModInfo().getVersion().toString()).setStyle(Style.EMPTY.withColor(Formatting.WHITE))));
 
                 about.add(extraData);
                 about.add(Text.empty());
 
-                var desc = new ArrayList<>(List.of(container.getMetadata().getDescription().split(" ")));
+                var desc = new ArrayList<>(List.of(container.getModInfo().getDescription().split(" ")));
 
                 if (desc.size() > 0) {
                     StringBuilder descPart = new StringBuilder();

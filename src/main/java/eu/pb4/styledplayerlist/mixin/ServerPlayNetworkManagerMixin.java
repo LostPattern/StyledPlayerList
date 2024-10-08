@@ -80,7 +80,7 @@ public abstract class ServerPlayNetworkManagerMixin extends ServerCommonNetworkH
 
             if (tick % this.styledPlayerList$style.updateRate == 0) {
                 var context = PlaceholderContext.of(this.player, SPLHelper.PLAYER_LIST_VIEW);
-                this.sendPacket(new PlayerListHeaderS2CPacket(this.styledPlayerList$style.getHeader(context, this.styledPlayerList$animationTick), this.styledPlayerList$style.getFooter(context, this.styledPlayerList$animationTick)));
+                this.send(new PlayerListHeaderS2CPacket(this.styledPlayerList$style.getHeader(context, this.styledPlayerList$animationTick), this.styledPlayerList$style.getFooter(context, this.styledPlayerList$animationTick)));
                 this.styledPlayerList$animationTick += 1;
             }
 
@@ -149,18 +149,18 @@ public abstract class ServerPlayNetworkManagerMixin extends ServerCommonNetworkH
 
         if (config.configData.playerName.changeRightText && !this.styledPlayerList$hasRightText) {
             this.styledPlayerList$hasRightText = true;
-            this.sendPacket(new ScoreboardObjectiveUpdateS2CPacket(PlayerList.SCOREBOARD_OBJECTIVE, ScoreboardObjectiveUpdateS2CPacket.ADD_MODE));
-            this.sendPacket(new ScoreboardDisplayS2CPacket(ScoreboardDisplaySlot.LIST, PlayerList.SCOREBOARD_OBJECTIVE));
+            this.send(new ScoreboardObjectiveUpdateS2CPacket(PlayerList.SCOREBOARD_OBJECTIVE, ScoreboardObjectiveUpdateS2CPacket.ADD_MODE));
+            this.send(new ScoreboardDisplayS2CPacket(ScoreboardDisplaySlot.LIST, PlayerList.SCOREBOARD_OBJECTIVE));
             for (var player : this.server.getPlayerManager().getPlayerList()) {
                 var packet = new ScoreboardScoreUpdateS2CPacket(player.getNameForScoreboard(), PlayerList.OBJECTIVE_NAME, 0, Optional.empty(), Optional.of(new FixedNumberFormat(
                         ConfigManager.getConfig().formatPlayerRightText(player)
                 )));
-                this.sendPacket(packet);
+                this.send(packet);
             }
         } else if (!config.configData.playerName.changeRightText && this.styledPlayerList$hasRightText) {
             this.styledPlayerList$hasRightText = false;
-            this.sendPacket(new ScoreboardDisplayS2CPacket(ScoreboardDisplaySlot.LIST, null));
-            this.sendPacket(new ScoreboardObjectiveUpdateS2CPacket(PlayerList.SCOREBOARD_OBJECTIVE, ScoreboardObjectiveUpdateS2CPacket.REMOVE_MODE));
+            this.send(new ScoreboardDisplayS2CPacket(ScoreboardDisplaySlot.LIST, null));
+            this.send(new ScoreboardObjectiveUpdateS2CPacket(PlayerList.SCOREBOARD_OBJECTIVE, ScoreboardObjectiveUpdateS2CPacket.REMOVE_MODE));
         }
     }
 

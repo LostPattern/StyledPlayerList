@@ -35,10 +35,10 @@ public abstract class PlayerManagerMixin {
                 ConfigManager.getConfig().formatPlayerRightText(player))
         ));
         this.sendToAll(packet);
-        handler.sendPacket(packet);
+        handler.send(packet);
         var context = PlaceholderContext.of(player, SPLHelper.PLAYER_LIST_VIEW);
         var x = ((PlayerListViewerHolder) handler).styledPlayerList$getAndIncreaseAnimationTick();
         var style = ((PlayerListViewerHolder) handler).styledPlayerList$getStyleObject();
-        handler.sendPacket(new PlayerListHeaderS2CPacket(style.getHeader(context, x), style.getFooter(context, x)));
+        handler.send(new PlayerListHeaderS2CPacket(style.getHeader(context, x), style.getFooter(context, x)));
     }
 }

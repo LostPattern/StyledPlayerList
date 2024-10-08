@@ -1,14 +1,14 @@
+# UNOFFICIAL NEOFORGE PORT
+This is unofficial neoforge port of Styled Player List mod by Patbox.
+Do not report any issues to Patbox, their discord or github.
+
+You can find official/fabric version here https://www.curseforge.com/minecraft/mc-mods/styled-player-list
+
 ![Logo](https://i.imgur.com/DOl47Dn.png)
 
 # Styled Player List
 It's a simple mod that allows server owners to style their player list as they like!
 With full permission/requirement support, placeholder api support, multiple styles and player list name overrides.
-
-*This mod works only on Fabric and Quilt!*
-
-If you have any questions, you can ask them on my [Discord](https://pb4.eu/discord)
-
-[Also check out my other mods and project, as you might find them useful!](https://pb4.eu)
 
 ![Example image](https://i.imgur.com/yIcm5dC.png)
 

@@ -6,26 +6,30 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import eu.pb4.styledplayerlist.GenericModInfo;
+import eu.pb4.styledplayerlist.Permissions;
 import eu.pb4.styledplayerlist.access.PlayerListViewerHolder;
 import eu.pb4.styledplayerlist.config.ConfigManager;
 import eu.pb4.styledplayerlist.config.PlayerListStyle;
-import me.lucko.fabric.api.permissions.v0.Permissions;
-import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
 
 import java.util.Collection;
 import java.util.Locale;
 
 import static net.minecraft.server.command.CommandManager.literal;
 
+@EventBusSubscriber
 public class Commands {
-    public static void register() {
-        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
+    @SubscribeEvent
+    public static void register(RegisterCommandsEvent event) {
+        var dispatcher = event.getDispatcher();
             dispatcher.register(
                     literal("styledplayerlist")
                             .requires(Permissions.require("styledplayerlist.main", true))
@@ -59,8 +63,6 @@ public class Commands {
                                     .executes(Commands::switchStyle)
                             )
             );
-
-        });
     }
 
     private static int reloadConfig(CommandContext<ServerCommandSource> context) {

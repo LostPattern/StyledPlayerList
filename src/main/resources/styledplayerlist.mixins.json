@@ -4,6 +4,7 @@
   "package": "eu.pb4.styledplayerlist.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "PermissionAPIAccessor",
     "PlayerListS2CPacketEntryMixin",
     "PlayerManagerMixin",
     "ServerPlayerEntityMixin",

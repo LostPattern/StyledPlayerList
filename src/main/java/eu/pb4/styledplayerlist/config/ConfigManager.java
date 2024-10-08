@@ -11,8 +11,7 @@ import eu.pb4.styledplayerlist.config.data.ConfigData;
 import eu.pb4.styledplayerlist.config.data.StyleData;
 import eu.pb4.styledplayerlist.config.data.legacy.LegacyConfigData;
 import eu.pb4.styledplayerlist.config.data.legacy.LegacyStyleData;
-import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.util.Identifier;
+import net.neoforged.fml.loading.FMLPaths;
 
 
 import java.io.*;
@@ -45,7 +44,7 @@ public class ConfigManager {
 
         CONFIG = null;
         try {
-            var configDir =  FabricLoader.getInstance().getConfigDir().resolve("styledplayerlist");
+            var configDir = FMLPaths.CONFIGDIR.get().resolve("styledplayerlist");
 
             var configStyle = configDir.resolve("styles");
             var configStyleLegacy = configDir.resolve("styles_old");
@@ -124,7 +123,7 @@ public class ConfigManager {
                 STYLES_DATA.put(name, styleData);
             });
 
-            PlayerList.PLAYER_LIST_STYLE_LOAD.invoker().onPlayerListUpdate(new PlayerList.StyleHelper(STYLES));
+            //PlayerList.PLAYER_LIST_STYLE_LOAD.invoker().onPlayerListUpdate(new PlayerList.StyleHelper(STYLES));
             CONFIG = new Config(config);
             ENABLED = true;
         } catch(Throwable exception) {
